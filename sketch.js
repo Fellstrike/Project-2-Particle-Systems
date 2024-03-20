@@ -5,10 +5,10 @@ let maxParticles = 500;
 let particleCount = 0;
 
 let wave = [];
-let waveStack = 4;
-let waveDirection = [];
-let waveHCount = 32;
-let waveVCount = 40;
+let waveStack = 5;
+let waveDirection = 1;
+let waveHCount = 1;
+let waveVCount = 1;
 
 let prevMouseX = 0;
 let prevMouseY = 0;
@@ -17,7 +17,12 @@ function setup()
 {
   createCanvas(1200, 800);
 
-  for (let i = 0; i < waveHCount; i++)
+
+  for (let i = 0; i < waveStack; i++)
+  {
+    wave[i] = new TestParticle("wave" + i, color(0+ 10*i,0 + 10*i,255-10 * i), 25 - 3*i, 150-15*i, width/2+7*i, 6-i, 0, 0, 0);
+  }
+ /* for (let i = 0; i < waveHCount; i++)
   {
     wave[i] = [];
     waveDirection[i] = [];
@@ -31,14 +36,24 @@ function setup()
         i*width/waveHCount + width/(40*waveHCount)*c, v * height/waveVCount, 0, 0, 0);
       }
     }
-  }
+  }*/
 }
 
 function draw() 
 {
-  background(0, 0, 175);
+  background(0, 0, 0);
 
-  for(let h = 0; h < waveHCount; h++)
+
+  for (let i = 0; i < waveStack; i++)
+  {
+    wave[i].display();
+    wave[i].changeHeight(waveDirection);
+  }
+  if (wave[0].pHeight > height || wave[0].pHeight <= 1)
+  {
+    waveDirection *= -1;
+  }
+  /*for(let h = 0; h < waveHCount; h++)
   {
     for(let v = 0; v < waveVCount; v++)
     {
@@ -53,7 +68,7 @@ function draw()
         waveDirection[h][v] *= -1;
       }
     }
-  }
+  }*/
 
   if (mouseIsPressed)
   {
